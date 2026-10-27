@@ -1,4 +1,3 @@
-import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
@@ -23,7 +22,8 @@ class CustomLinkedListTest {
     void get() {
         CustomLinkedList<Integer> list = new CustomLinkedList<>();
         list.add(1);
-        assertEquals(1, list.get(0));
+        // Casts 1 to Integer (or (int) list.get(0)) to remove overload ambiguity
+        assertEquals(Integer.valueOf(1), list.get(0));
     }
 
     @Test
@@ -31,7 +31,6 @@ class CustomLinkedListTest {
         CustomLinkedList<Integer> list = new CustomLinkedList<>();
         list.add(1);
         list.remove(0);
-        // CustomLinkedList throws RuntimeException when attempting to remove from an empty list
         assertThrows(RuntimeException.class, () -> list.remove(0));
     }
 
