@@ -94,5 +94,34 @@ public class CustomLinkedList<E> {
     public boolean isEmpty() {
         return head == null;
     }
+    public static void main(String[] args) {
+        CustomLinkedList<String> campusMap = new CustomLinkedList<>();
 
+        campusMap.add("Gate 1");
+        campusMap.add("Gate 2.5");
+        campusMap.add("Gate 3");
+        campusMap.add("Fr. Masterson Drive");
+        campusMap.add("Fr. Arrupe Loop");
+        campusMap.add("Parade Loop");
+        campusMap.add("University Road");
+        campusMap.add("Loyola Drive");
+
+        System.out.println("--- Ateneo Campus Locations Route (" + campusMap.size() + " waypoints) ---");
+        for (int i = 0; i < campusMap.size(); i++) {
+            System.out.println((i + 1) + ". " + campusMap.get(i));
+        }
+
+        System.out.println("\nFirst stop: " + campusMap.get(0));
+
+        System.out.println("\nRemoving index 1 (Gate 2.5)...");
+        campusMap.remove(1);
+
+        System.out.println("\n--- Updated Route (" + campusMap.size() + " waypoints) ---");
+        for (int i = 0; i < campusMap.size(); i++) {
+            System.out.println((i + 1) + ". " + campusMap.get(i));
+        }
+
+        campusMap.clear();
+        System.out.println("\nRoute cleared. Is route empty? " + campusMap.isEmpty());
+    }
 }
