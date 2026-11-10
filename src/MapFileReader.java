@@ -1,11 +1,10 @@
-import java.io.File;
+import java.io.File;import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 /*
  * MapFileReader.java
- * Reads the text file (e.g., ateneo_map.txt) and populates
- * the custom data structure with places and road connections.
+ * Reads the text file and populates places and road connections.
  */
 public class MapFileReader {
 
@@ -21,12 +20,23 @@ public class MapFileReader {
         this.loaded = false;
     }
 
-    /*
-     * Reads the map file line by line (Place1 Place2 format).
-     * Populates places list and road connections.
-     */
     public boolean loadFile(String fileName) {
         File file = new File(fileName);
+
+        // Check src/ directory if not found in project root
+        if (!file.exists()) {
+            file = new File("src/" + fileName);
+        }
+
+        // Check without .txt if filename was created without extension
+        if (!file.exists() && fileName.endsWith(".txt")) {
+            String noExt = fileName.substring(0, fileName.length() - 4);
+            file = new File(noExt);
+            if (!file.exists()) {
+                file = new File("src/" + noExt);
+            }
+        }
+
         if (!file.exists()) {
             return false;
         }
