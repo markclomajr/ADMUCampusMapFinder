@@ -91,6 +91,27 @@ public class CustomLinkedList<E> {
         return count;
     }
 
+    // Replace element at specified index
+    public void set(int index, E item) {
+        if (head == null) {
+            throw new RuntimeException("List Empty");
+        }
+        if (index < 0) {
+            throw new IndexOutOfBoundsException("Index out of bounds: "
+                    + index);
+        }
+
+        Node<E> temp = head;
+        for (int i = 0; i < index; i++) {
+            temp = temp.next;
+            if (temp == null) {
+                throw new IndexOutOfBoundsException("Index out of bounds: "
+                        + index);
+            }
+        }
+        temp.item = item;
+    }
+
     public boolean isEmpty() {
         return head == null;
     }
