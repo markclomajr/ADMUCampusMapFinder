@@ -31,6 +31,10 @@ public class CustomGraph {
 
     // Find a location in the graph
     private Vertex findVertex(String name) {
+        if (name == null) {
+            return null;
+        }
+
         for (int i = 0; i < vertices.size(); i++) {
             Vertex current = vertices.get(i);
 
@@ -40,6 +44,10 @@ public class CustomGraph {
         }
 
         return null;
+    }
+    // Check if a location exists in the graph
+    public boolean containsPlace(String name) {
+        return findVertex(name) != null;
     }
 
     // Add a road connection between two locations

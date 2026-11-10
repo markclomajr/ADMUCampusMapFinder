@@ -39,5 +39,23 @@ public class CustomGraphTest {
         } else {
             System.out.println("Some connections are incorrect.");
         }
+
+        // Test linear search
+        System.out.println("\n--- Linear Search Test ---");
+
+        System.out.println("Blue_Eagle_Gym: " +
+                graph.containsPlace("Blue_Eagle_Gym"));
+
+        System.out.println("Arete: " +
+                graph.containsPlace("Arete"));
+
+        System.out.println("Lowercase search: " +
+                graph.containsPlace("blue_eagle_gym"));
+
+        System.out.println("Invalid place: " +
+                graph.containsPlace("Nonexistent_Hall"));
+
+        System.out.println("Null input: " +
+                graph.containsPlace(null));
     }
 }
