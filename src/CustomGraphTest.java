@@ -11,7 +11,12 @@ public class CustomGraphTest {
 
         CustomGraph graph = new CustomGraph(reader);
 
+        // Add the road connections to the graph
+        graph.buildConnections(reader);
+
         System.out.println("Places in graph: " + graph.size());
+        System.out.println("Roads loaded: " + reader.getRoadCount());
+
         graph.printGraph();
     }
 }
