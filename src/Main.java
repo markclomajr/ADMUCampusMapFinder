@@ -2,13 +2,13 @@ import java.util.Scanner;
 
 /*
  * Main.java - Term Project: Campus Map Finder
- * Displays the main menu and handles user selection.
- * Functionality for options will be linked in upcoming modules.
+ * Displays the main menu, delegates map loading to MapFileReader.
  */
 public class Main {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        MapFileReader reader = new MapFileReader();
         boolean running = true;
 
         while (running) {
@@ -28,24 +28,49 @@ public class Main {
             System.out.println();
             switch (choice) {
                 case 1:
-                    System.out.println("[Stub] Option 1: Load map file " +
-                            "selected.");
-                    System.out.println("Functionality will be added in " +
-                            "Week 2.\n");
+                    System.out.print("Enter map filename " +
+                            "(e.g., ateneo_map.txt): ");
+                    String fileName = scanner.nextLine().trim();
+                    if (fileName.isEmpty()) {
+                        fileName = "1ateneo_map.txt";
+                    }
+
+                    boolean loaded = reader.loadFile(fileName);
+                    if (loaded) {
+                        System.out.println("Map loaded successfully!");
+                        System.out.println("Places loaded: " +
+                                reader.getPlaces().size());
+                        System.out.println("Roads loaded: " +
+                                reader.getRoadCount());
+                        System.out.println();
+                    } else {
+                        System.out.println("Error: File '" + fileName +
+                                "' not found.\n");
+                    }
                     break;
 
                 case 2:
-                    System.out.println("[Stub] Option 2: Show places " +
-                            "A-to-Z selected.");
-                    System.out.println("Functionality will be added in " +
-                            "Week 3.\n");
+                    if (!reader.isLoaded()) {
+                        System.out.println("Error: Please load a map " +
+                                "file first!\n");
+                    } else {
+                        System.out.println("[Stub] Option 2: Show places " +
+                                "A-to-Z.");
+                        System.out.println("Sorting algorithm will be " +
+                                "added in Week 3.\n");
+                    }
                     break;
 
                 case 3:
-                    System.out.println("[Stub] Option 3: Find path between " +
-                            "2 places selected.");
-                    System.out.println("Functionality will be added in " +
-                            "Week 3.\n");
+                    if (!reader.isLoaded()) {
+                        System.out.println("Error: Please load a map " +
+                                "file first!\n");
+                    } else {
+                        System.out.println("[Stub] Option 3: Find path " +
+                                "between 2 places.");
+                        System.out.println("BFS algorithm will be added " +
+                                "in Week 3.\n");
+                    }
                     break;
 
                 case 4:
