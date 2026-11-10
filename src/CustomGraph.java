@@ -82,6 +82,23 @@ public class CustomGraph {
         }
     }
 
+    // Check if two locations are connected
+    public boolean hasEdge(String from, String to) {
+        Vertex first = findVertex(from);
+
+        if (first == null) {
+            return false;
+        }
+
+        for (int i = 0; i < first.neighbors.size(); i++) {
+            if (first.neighbors.get(i).equalsIgnoreCase(to)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     // Return the number of locations in the graph
     public int size() {
         return vertices.size();
