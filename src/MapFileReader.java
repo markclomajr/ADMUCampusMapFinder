@@ -1,4 +1,4 @@
-import java.io.File;import java.io.File;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
@@ -90,5 +90,31 @@ public class MapFileReader {
 
     public boolean isLoaded() {
         return loaded;
+    }
+
+    public static void main(String[] args) {
+        MapFileReader reader = new MapFileReader();
+        String fileName = "ateneo_map.txt";
+
+        if (reader.loadFile(fileName)) {
+            System.out.println("--- Map Loaded Successfully ---");
+            System.out.println("Total Unique Places: " +
+                    reader.getPlaces().size());
+            System.out.println("Places:");
+            for (int i = 0; i < reader.getPlaces().size(); i++) {
+                System.out.println("  " + (i + 1) + ". " +
+                        reader.getPlaces().get(i));
+            }
+
+            System.out.println("\nTotal Roads: " + reader.getRoadCount());
+            System.out.println("Road Connections:");
+            for (int i = 0; i < reader.getRoadCount(); i++) {
+                System.out.println("  " + reader.getRoadsFrom().get(i) +
+                        " <-> " + reader.getRoadsTo().get(i));
+            }
+        } else {
+            System.out.println("Error: Could not load file '" +
+                    fileName + "'.");
+        }
     }
 }
