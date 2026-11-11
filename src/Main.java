@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 /*
  * Main.java - Term Project: Campus Map Finder
- * Handles the main menu and connects the map reader and graph.
+ * Handles the main menu, sorting, and BFS pathfinding execution.
  */
 public class Main {
 
@@ -17,7 +17,6 @@ public class Main {
             System.out.print("Enter your choice (1-4): ");
 
             String input = scanner.nextLine().trim();
-
             int choice;
 
             try {
@@ -61,19 +60,23 @@ public class Main {
                         System.out.println(
                                 "Error: Please load a map file first!\n");
                     } else {
-                        System.out.println("--- Campus Places ---");
+                        CustomLinkedList<String> sortedPlaces =
+                                new CustomLinkedList<>();
+                        CustomLinkedList<String> rawPlaces =
+                                reader.getPlaces();
 
-                        for (int i = 0;
-                             i < reader.getPlaces().size(); i++) {
-
-                            System.out.println(
-                                    (i + 1) + ". " +
-                                            reader.getPlaces().get(i));
+                        for (int i = 0; i < rawPlaces.size(); i++) {
+                            sortedPlaces.add(rawPlaces.get(i));
                         }
 
-                        System.out.println(
-                                "\nA-to-Z sorting will be integrated " +
-                                        "after the sorting method is ready.\n");
+                        SortUtils.selectionSort(sortedPlaces);
+
+                        System.out.println("--- Campus Places (A-to-Z) ---");
+                        for (int i = 0; i < sortedPlaces.size(); i++) {
+                            System.out.println(
+                                    (i + 1) + ". " + sortedPlaces.get(i));
+                        }
+                        System.out.println();
                     }
                     break;
 
@@ -95,16 +98,33 @@ public class Main {
                                 "\nError: Locations cannot be empty.\n");
                     } else if (!graph.containsPlace(start)) {
                         System.out.println(
-                                "\nError: Starting location does not exist.\n");
+                                "\nError: Starting location '" + start +
+                                        "' does not exist.\n");
                     } else if (!graph.containsPlace(destination)) {
                         System.out.println(
-                                "\nError: Destination does not exist.\n");
+                                "\nError: Destination '" + destination +
+                                        "' does not exist.\n");
                     } else {
-                        System.out.println(
-                                "\nBoth locations are valid!");
-                        System.out.println(
-                                "BFS pathfinding will be integrated " +
-                                        "when the algorithm is ready.\n");
+                        CustomLinkedList<String> path =
+                                graph.findShortestPath(start, destination);
+
+                        if (path == null) {
+                            System.out.println(
+                                    "\nError: No path exists between '" +
+                                            start + "' and '" +
+                                            destination + "'.\n");
+                        } else {
+                            System.out.println("\n--- Shortest Path ---");
+                            for (int i = 0; i < path.size(); i++) {
+                                System.out.print(path.get(i));
+                                if (i < path.size() - 1) {
+                                    System.out.print(" -> ");
+                                }
+                            }
+                            System.out.println();
+                            System.out.println("Number of stops: " +
+                                    (path.size() - 1) + "\n");
+                        }
                     }
                     break;
 
