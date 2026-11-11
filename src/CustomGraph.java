@@ -132,4 +132,88 @@ public class CustomGraph {
             System.out.println();
         }
     }
+
+    // Helper node wrapper for BFS path reconstruction
+    private static class PathNode {
+        String name;
+        PathNode parent;
+
+        public PathNode(String name, PathNode parent) {
+            this.name = name;
+            this.parent = parent;
+        }
+    }
+
+    // BFS algorithm to find shortest path (fewest stops)
+    public CustomLinkedList<String> findShortestPath(String start,
+                                                     String target) {
+        Vertex startVertex = findVertex(start);
+        Vertex targetVertex = findVertex(target);
+
+        if (startVertex == null || targetVertex == null) {
+            return null;
+        }
+
+        CustomQueue<PathNode> queue = new CustomQueue<>();
+        CustomLinkedList<String> visited = new CustomLinkedList<>();
+
+        queue.enqueue(new PathNode(startVertex.name, null));
+        visited.add(startVertex.name.toLowerCase());
+
+        PathNode matchNode = null;
+
+        while (!queue.isEmpty()) {
+            PathNode current = queue.dequeue();
+
+            if (current.name.equalsIgnoreCase(targetVertex.name)) {
+                matchNode = current;
+                break;
+            }
+
+            Vertex currentVertex = findVertex(current.name);
+            if (currentVertex == null) {
+                continue;
+            }
+
+            for (int i = 0; i < currentVertex.neighbors.size(); i++) {
+                String neighbor = currentVertex.neighbors.get(i);
+
+                if (!containsIgnoreCase(visited, neighbor)) {
+                    visited.add(neighbor.toLowerCase());
+                    queue.enqueue(new PathNode(neighbor, current));
+                }
+            }
+        }
+
+        if (matchNode == null) {
+            return null; // No path found
+        }
+
+        // Reconstruct path backwards from target to start
+        CustomLinkedList<String> reversed = new CustomLinkedList<>();
+        PathNode curr = matchNode;
+        while (curr != null) {
+            reversed.add(curr.name);
+            curr = curr.parent;
+        }
+
+        // Reverse to get start-to-target path order
+        CustomLinkedList<String> path = new CustomLinkedList<>();
+        for (int i = reversed.size() - 1; i >= 0; i--) {
+            path.add(reversed.get(i));
+        }
+
+        return path;
+    }
+
+    // Helper method for case-insensitive lookup in linear search
+    private boolean containsIgnoreCase(CustomLinkedList<String> list,
+                                       String target) {
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).equalsIgnoreCase(target)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
